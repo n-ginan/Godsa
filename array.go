@@ -108,6 +108,26 @@ func (l *List) IndexOf(datum string) int {
 	return 0
 }
 
+func (l *List) LastIndexOf(datum string) uint16 {
+	if !l.Contains(datum) {
+		return 0
+	} else {
+		var commaCount int = 1
+		var currentPosition int = len(l.data) - 1
+		for i := len(l.data)-1; i >= 0; i-- {
+			if string(l.data[i]) == "," || string(l.data[i]) == "[" {
+				if l.data[i + 2 : currentPosition] == datum || 
+				   l.data[i + 1 : currentPosition] == datum {
+					break
+				}
+				currentPosition = i
+				commaCount++
+			}
+		}
+		return l.Size() - uint16(commaCount)
+	}
+}
+
 func (l * List) Clear() string {
 	l.data = "[]"
 	return l.data
@@ -140,5 +160,5 @@ func main() {
 	fmt.Println(list.Replace("Updated Data", 1))
 	fmt.Println(list.Replace("Hotdog", 0))
 	fmt.Println(list.Replace("Sinugba", 3))
-	fmt.Println(list.Size())
+	list.Display()
 }
